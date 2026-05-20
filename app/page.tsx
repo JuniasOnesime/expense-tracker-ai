@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Plus } from 'lucide-react';
+import { Plus, Download } from 'lucide-react';
 import Link from 'next/link';
 import { useExpenses } from '@/hooks/useExpenses';
 import { SummaryCards } from '@/components/SummaryCards';
 import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseItem } from '@/components/ExpenseItem';
 import { Expense } from '@/lib/types';
+import { exportToCSV } from '@/lib/utils';
 
 const SpendingChart = dynamic(
   () => import('@/components/SpendingChart').then((m) => m.SpendingChart),
@@ -63,13 +64,22 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-sm text-gray-400 mt-0.5">Overview of your spending</p>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
-        >
-          <Plus size={15} />
-          Add Expense
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => exportToCSV(expenses)}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <Download size={15} />
+            Export Data
+          </button>
+          <button
+            onClick={() => setShowForm(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
+          >
+            <Plus size={15} />
+            Add Expense
+          </button>
+        </div>
       </div>
 
       {/* Summary cards */}
