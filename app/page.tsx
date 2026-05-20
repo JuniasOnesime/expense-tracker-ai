@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Plus } from 'lucide-react';
+import { Plus, FileDown } from 'lucide-react';
 import Link from 'next/link';
 import { useExpenses } from '@/hooks/useExpenses';
 import { SummaryCards } from '@/components/SummaryCards';
 import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseItem } from '@/components/ExpenseItem';
+import { ExportModal } from '@/components/ExportModal';
 import { Expense } from '@/lib/types';
 
 const SpendingChart = dynamic(
@@ -22,6 +23,7 @@ const CategoryPieChart = dynamic(
 export default function DashboardPage() {
   const { expenses, isLoaded, addExpense, updateExpense, deleteExpense } = useExpenses();
   const [showForm, setShowForm] = useState(false);
+  const [showExport, setShowExport] = useState(false);
   const [editingExpense, setEditingExpense] = useState<Expense | undefined>();
 
   function handleSubmit(data: Omit<Expense, 'id' | 'createdAt'>) {
@@ -63,13 +65,22 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-sm text-gray-400 mt-0.5">Overview of your spending</p>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
-        >
-          <Plus size={15} />
-          Add Expense
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowExport(true)}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-white hover:shadow-sm transition-all"
+          >
+            <FileDown size={15} />
+            Export
+          </button>
+          <button
+            onClick={() => setShowForm(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
+          >
+            <Plus size={15} />
+            Add Expense
+          </button>
+        </div>
       </div>
 
       {/* Summary cards */}
@@ -116,6 +127,10 @@ export default function DashboardPage() {
 
       {showForm && (
         <ExpenseForm expense={editingExpense} onSubmit={handleSubmit} onClose={handleClose} />
+      )}
+
+      {showExport && (
+        <ExportModal expenses={expenses} onClose={() => setShowExport(false)} />
       )}
     </div>
   );
