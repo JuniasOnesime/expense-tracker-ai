@@ -9,6 +9,7 @@ import { useBudgets } from '@/hooks/useBudgets';
 import { SummaryCards } from '@/components/SummaryCards';
 import { BudgetOverview } from '@/components/BudgetOverview';
 import { BudgetSetupModal } from '@/components/BudgetSetupModal';
+import { ReceiptScanner } from '@/components/ReceiptScanner';
 import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseItem } from '@/components/ExpenseItem';
 import { Expense } from '@/lib/types';
@@ -61,6 +62,8 @@ export default function DashboardPage() {
           <p className="text-sm text-gray-400 mt-0.5">Overview of your spending</p>
         </div>
         <div className="flex items-center gap-2">
+          {/* Receipt scanning — renders its own trigger button */}
+          <ReceiptScanner onAdd={addExpense} />
           <button
             onClick={() => setShowBudgetSetup(true)}
             className="flex items-center gap-2 px-4 py-2 border border-gray-200 bg-white text-gray-700 text-sm font-medium rounded-lg hover:shadow-sm hover:border-gray-300 transition-all"
