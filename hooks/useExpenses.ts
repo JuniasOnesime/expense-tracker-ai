@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Expense } from '@/lib/types';
 import { getExpenses, saveExpenses } from '@/lib/storage';
 import { generateId } from '@/lib/utils';
@@ -9,19 +9,15 @@ import { SEED_EXPENSES } from '@/lib/seed';
 type ExpenseInput = Omit<Expense, 'id' | 'createdAt'>;
 
 export function useExpenses() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
+  const [expenses, setExpenses] = useState<Expense[]>(() => {
     const stored = getExpenses();
     if (stored.length === 0) {
       saveExpenses(SEED_EXPENSES);
-      setExpenses(SEED_EXPENSES);
-    } else {
-      setExpenses(stored);
+      return SEED_EXPENSES;
     }
-    setIsLoaded(true);
-  }, []);
+    return stored;
+  });
+  const isLoaded = true;
 
   function addExpense(input: ExpenseInput): Expense {
     const expense: Expense = {
