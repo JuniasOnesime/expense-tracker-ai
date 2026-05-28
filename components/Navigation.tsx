@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Receipt, Menu, X, TrendingUp, BarChart2 } from 'lucide-react';
+import { LayoutDashboard, Receipt, Menu, X, TrendingUp, BarChart2, Lightbulb } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
   { href: '/',          label: 'Dashboard', icon: LayoutDashboard },
   { href: '/expenses',  label: 'Expenses',  icon: Receipt },
   { href: '/analytics', label: 'Analytics', icon: BarChart2 },
+  { href: '/insights',  label: 'Insights',  icon: Lightbulb },
 ];
 
 export function Navigation() {
